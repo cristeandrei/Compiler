@@ -83,7 +83,7 @@ internal class Lexer(string text)
                 return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(");
             case ')':
                 return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")");
-            case '!':
+            case '!' when Lookahead != '=':
                 return new SyntaxToken(SyntaxKind.BangToken, _position++, "!");
             case '&' when Lookahead == '&':
                 _position += 2;
@@ -91,6 +91,12 @@ internal class Lexer(string text)
             case '|' when Lookahead == '|':
                 _position += 2;
                 return new SyntaxToken(SyntaxKind.PipePipeToken, _position, "||");
+            case '=' when Lookahead == '=':
+                _position += 2;
+                return new SyntaxToken(SyntaxKind.EqualsEqualsToken, _position, "||");
+            case '!' when Lookahead == '=':
+                _position += 2;
+                return new SyntaxToken(SyntaxKind.BangEqualsToken, _position, "||");
             default:
                 _diagnostics.Add($"ERROR: bad character input: '{Current}'");
                 return new SyntaxToken(SyntaxKind.BadToken, _position++, text.Substring(_position - 1, 1));

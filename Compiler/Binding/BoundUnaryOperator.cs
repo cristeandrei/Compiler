@@ -16,12 +16,12 @@ internal sealed class BoundUnaryOperator
     {
     }
 
-    private BoundUnaryOperator(SyntaxKind syntaxKind, BoundUnaryOperatorKind kind, Type operandType, Type resultType)
+    private BoundUnaryOperator(SyntaxKind syntaxKind, BoundUnaryOperatorKind kind, Type operandType, Type type)
     {
         SyntaxKind = syntaxKind;
         Kind = kind;
         OperandType = operandType;
-        ResultType = resultType;
+        Type = type;
     }
 
     public SyntaxKind SyntaxKind { get; }
@@ -30,7 +30,7 @@ internal sealed class BoundUnaryOperator
 
     public Type OperandType { get; }
 
-    public Type ResultType { get; }
+    public Type Type { get; }
 
     public static BoundUnaryOperator? Bind(SyntaxKind syntaxKind, Type operandType)
     {

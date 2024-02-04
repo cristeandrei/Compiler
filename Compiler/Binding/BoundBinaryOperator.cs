@@ -11,22 +11,33 @@ internal sealed class BoundBinaryOperator
         new BoundBinaryOperator(SyntaxKind.StarToken, BoundBinaryOperatorKind.Multiplication, typeof(int)),
         new BoundBinaryOperator(SyntaxKind.SlashToken, BoundBinaryOperatorKind.Division, typeof(int)),
 
+        new BoundBinaryOperator(SyntaxKind.EqualsEqualsToken, BoundBinaryOperatorKind.Equals, typeof(int), typeof(bool)),
+        new BoundBinaryOperator(SyntaxKind.BangEqualsToken, BoundBinaryOperatorKind.NotEquals, typeof(int), typeof(bool)),
+
+        new BoundBinaryOperator(SyntaxKind.EqualsEqualsToken, BoundBinaryOperatorKind.Equals, typeof(bool)),
+        new BoundBinaryOperator(SyntaxKind.BangEqualsToken, BoundBinaryOperatorKind.NotEquals, typeof(BoundBinaryOperatorKind)),
+
         new BoundBinaryOperator(SyntaxKind.AmpersandAmpersandToken, BoundBinaryOperatorKind.LogicalAnd, typeof(bool)),
         new BoundBinaryOperator(SyntaxKind.PipePipeToken, BoundBinaryOperatorKind.LogicalOr, typeof(bool)),
     ];
+
+    private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, Type operandsType, Type type)
+        : this(syntaxKind, kind, operandsType, operandsType, type)
+    {
+    }
 
     private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, Type type)
     : this(syntaxKind, kind, type, type, type)
     {
     }
 
-    private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, Type leftType, Type rightType, Type resultType)
+    private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, Type leftType, Type rightType, Type type)
     {
         SyntaxKind = syntaxKind;
         Kind = kind;
         LeftType = leftType;
         RightType = rightType;
-        ResultType = resultType;
+        Type = type;
     }
 
     public SyntaxKind SyntaxKind { get; }
@@ -37,7 +48,7 @@ internal sealed class BoundBinaryOperator
 
     public Type RightType { get; }
 
-    public Type ResultType { get; }
+    public Type Type { get; }
 
     public static BoundBinaryOperator? Bind(SyntaxKind syntaxKind, Type leftType, Type rightType)
     {

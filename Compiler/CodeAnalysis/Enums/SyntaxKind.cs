@@ -31,4 +31,6 @@ internal enum SyntaxKind
 
     AmpersandAmpersandToken,
     PipePipeToken,
+    EqualsEqualsToken,
+    BangEqualsToken,
 }

@@ -7,7 +7,7 @@ internal class BoundUnaryExpression(BoundUnaryOperator op, BoundExpression opera
 {
     public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
 
-    public override Type Type => Operand.Type;
+    public override Type Type => Op.Type;
 
     public BoundUnaryOperator Op { get; } = op;
 

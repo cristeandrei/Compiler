@@ -39,6 +39,8 @@ internal class Evaluator(BoundExpression root)
                         BoundBinaryOperatorKind.Division => (int)left / (int)right,
                         BoundBinaryOperatorKind.LogicalAnd => (bool)left && (bool)right,
                         BoundBinaryOperatorKind.LogicalOr => (bool)left || (bool)right,
+                        BoundBinaryOperatorKind.Equals => left.Equals(right),
+                        BoundBinaryOperatorKind.NotEquals => left.Equals(right),
                         _ => throw new ArgumentException($"Unexpected binary operator {b.Op}"),
                     };
                 }
