@@ -65,7 +65,7 @@ internal class Parser
                 {
                     var keywordToken = NextToken();
 
-                    var value = Current.Kind == SyntaxKind.TrueKeyword;
+                    var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
 
                     return new LiteralExpressionSyntax(keywordToken, value);
                 }

@@ -27,4 +27,8 @@ internal enum SyntaxKind
     TrueKeyword,
     FalseKeyword,
     IdentifierToken,
+    BangToken,
+
+    AmpersandAmpersandToken,
+    PipePipeToken,
 }
