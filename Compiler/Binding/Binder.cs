@@ -19,57 +19,6 @@ internal sealed class Binder
         };
     }
 
-    private static BoundUnaryOperatorKind? BindUnaryOperatorKind(SyntaxKind kind, Type operandType)
-    {
-        if (operandType == typeof(int))
-        {
-            return kind switch
-            {
-                SyntaxKind.PlusToken => BoundUnaryOperatorKind.Identity,
-                SyntaxKind.MinusToken => BoundUnaryOperatorKind.Negation,
-                _ => null,
-            };
-        }
-
-        if (operandType == typeof(bool))
-        {
-            return kind switch
-            {
-                SyntaxKind.BangToken => BoundUnaryOperatorKind.LogicalNegation,
-                _ => null,
-            };
-        }
-
-        return null;
-    }
-
-    private static BoundBinaryOperatorKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
-    {
-        if (leftType == typeof(int) && rightType == typeof(int))
-        {
-            return kind switch
-            {
-                SyntaxKind.PlusToken => BoundBinaryOperatorKind.Addition,
-                SyntaxKind.MinusToken => BoundBinaryOperatorKind.Subtraction,
-                SyntaxKind.StarToken => BoundBinaryOperatorKind.Multiplication,
-                SyntaxKind.SlashToken => BoundBinaryOperatorKind.Division,
-                _ => null,
-            };
-        }
-
-        if (leftType == typeof(bool) && rightType == typeof(bool))
-        {
-            return kind switch
-            {
-                SyntaxKind.AmpersandAmpersandToken => BoundBinaryOperatorKind.LogicalAnd,
-                SyntaxKind.PipePipeToken => BoundBinaryOperatorKind.LogicalOr,
-                _ => null,
-            };
-        }
-
-        return null;
-    }
-
     private static BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
     {
         var value = syntax.Value;
@@ -80,7 +29,7 @@ internal sealed class Binder
     private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
     {
         var boundOperand = BindExpression(syntax.Operand);
-        var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
+        var boundOperatorKind = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);
 
         if (boundOperatorKind == null)
         {
@@ -89,14 +38,14 @@ internal sealed class Binder
             return boundOperand;
         }
 
-        return new BoundUnaryExpression(boundOperatorKind.Value, boundOperand);
+        return new BoundUnaryExpression(boundOperatorKind, boundOperand);
     }
 
     private BoundExpression BindBinaryExpression(BinaryExpressionSyntax syntax)
     {
         var boundLeft = BindExpression(syntax.Left);
         var boundRight = BindExpression(syntax.Right);
-        var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
+        var boundOperatorKind = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
 
         if (boundOperatorKind == null)
         {
@@ -105,6 +54,6 @@ internal sealed class Binder
             return boundLeft;
         }
 
-        return new BoundBinaryExpression(boundLeft, boundOperatorKind.Value, boundRight);
+        return new BoundBinaryExpression(boundLeft, boundOperatorKind, boundRight);
     }
 }

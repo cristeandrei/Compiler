@@ -2,11 +2,11 @@ using Compiler.Binding.Enums;
 
 namespace Compiler.Binding;
 
-internal sealed class BoundBinaryExpression(BoundExpression left, BoundBinaryOperatorKind operatorKind, BoundExpression right) : BoundExpression
+internal sealed class BoundBinaryExpression(BoundExpression left, BoundBinaryOperator op, BoundExpression right) : BoundExpression
 {
     public BoundExpression Left { get; } = left;
 
-    public BoundBinaryOperatorKind OperatorKind { get; } = operatorKind;
+    public BoundBinaryOperator Op { get; } = op;
 
     public BoundExpression Right { get; } = right;
 
