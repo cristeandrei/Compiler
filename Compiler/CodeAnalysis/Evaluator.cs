@@ -15,6 +15,15 @@ internal class Evaluator(ExpressionSyntax root)
         {
             case LiteralExpressionSyntax n:
                 return (int)n.LiteralToken.Value;
+            case UnaryExpressionSyntax u:
+                var operand = EvaluateExpression(u.Operand);
+
+                return u.OperatorToken.Kind switch
+                {
+                    SyntaxKind.PlusToken => operand,
+                    SyntaxKind.MinusToken => -operand,
+                    _ => throw new ArgumentOutOfRangeException($"Unexpected unary operator {u.OperatorToken.Kind}")
+                };
             case BinaryExpressionSyntax b:
                 {
                     var left = EvaluateExpression(b.Left);
