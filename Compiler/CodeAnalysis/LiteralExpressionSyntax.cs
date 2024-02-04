@@ -4,7 +4,7 @@ using Enums;
 
 internal sealed class LiteralExpressionSyntax(SyntaxToken literalToken) : ExpressionSyntax
 {
-    public override SyntaxKind Kind => SyntaxKind.NumberExpression;
+    public override SyntaxKind Kind => SyntaxKind.LiteralExpression;
 
     public SyntaxToken LiteralToken { get; } = literalToken;
 

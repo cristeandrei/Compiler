@@ -19,8 +19,8 @@ internal enum SyntaxKind
     CloseParenthesisToken,
 
     // expressions
-    NumberExpression,
     BinaryExpression,
     ParenthesizedExpression,
+    LiteralExpression,
     UnaryExpression,
 }
