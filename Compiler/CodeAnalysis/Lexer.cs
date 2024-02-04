@@ -51,6 +51,22 @@ internal class Lexer(string text)
             return new SyntaxToken(SyntaxKind.WhitespaceToken, start, tokenText);
         }
 
+        if (char.IsLetter(Current))
+        {
+            var start = _position;
+
+            while (char.IsLetter(Current))
+            {
+                Next();
+            }
+
+            var tokenText = text[start.._position];
+
+            var kind = SyntaxFacts.GetKeywordKind(tokenText);
+
+            return new SyntaxToken(kind, start, tokenText);
+        }
+
         switch (Current)
         {
             case '+':

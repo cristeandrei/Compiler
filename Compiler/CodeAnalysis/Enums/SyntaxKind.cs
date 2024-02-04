@@ -23,4 +23,8 @@ internal enum SyntaxKind
     ParenthesizedExpression,
     LiteralExpression,
     UnaryExpression,
+
+    TrueKeyword,
+    FalseKeyword,
+    IdentifierToken,
 }

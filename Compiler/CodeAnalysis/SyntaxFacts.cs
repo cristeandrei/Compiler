@@ -22,4 +22,14 @@ internal static class SyntaxFacts
             _ => 0,
         };
     }
+
+    public static SyntaxKind GetKeywordKind(string tokenText)
+    {
+        return tokenText switch
+        {
+            "true" => SyntaxKind.TrueKeyword,
+            "false" => SyntaxKind.FalseKeyword,
+            _ => SyntaxKind.IdentifierToken,
+        };
+    }
 }
