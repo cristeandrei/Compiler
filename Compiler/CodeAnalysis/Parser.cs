@@ -36,7 +36,7 @@ internal class Parser
 
         do
         {
-            token = lexer.NextToken();
+            token = lexer.Lex();
 
             if (token.Kind is not SyntaxKind.WhitespaceToken
                 and not SyntaxKind.BadToken)

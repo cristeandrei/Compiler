@@ -11,7 +11,7 @@ internal class Lexer(string text)
 
     private char Current => _position >= text.Length ? '\0' : text[_position];
 
-    public SyntaxToken NextToken()
+    public SyntaxToken Lex()
     {
         if (_position >= text.Length)
         {
