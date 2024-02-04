@@ -17,18 +17,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Roslynator.Analyzers" Version="4.10.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0"/>
+        <PackageReference Include="Roslynator.Analyzers" Version="4.10.0"/>
+        <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.10.0"/>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025"/>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556"/>
     </ItemGroup>
+
+    <PropertyGroup>
+        <NoWarn>SA1135;SA1600;SA1101;SA1633;SA1309;SA1200;SA0001</NoWarn>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
 
 </Project>

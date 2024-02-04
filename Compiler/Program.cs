@@ -9,7 +9,9 @@ while (true)
     var line = Console.ReadLine();
 
     if (string.IsNullOrWhiteSpace(line))
+    {
         return;
+    }
 
     switch (line)
     {
@@ -54,7 +56,7 @@ while (true)
     }
 }
 
-void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
+static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
 {
     var marker = isLast ? "└──" : "├──";
 

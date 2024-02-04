@@ -22,7 +22,7 @@ internal class Evaluator(ExpressionSyntax root)
                 {
                     SyntaxKind.PlusToken => operand,
                     SyntaxKind.MinusToken => -operand,
-                    _ => throw new ArgumentOutOfRangeException($"Unexpected unary operator {u.OperatorToken.Kind}")
+                    _ => throw new ArgumentOutOfRangeException($"Unexpected unary operator {u.OperatorToken.Kind}"),
                 };
             case BinaryExpressionSyntax b:
                 {
@@ -35,7 +35,7 @@ internal class Evaluator(ExpressionSyntax root)
                         SyntaxKind.MinusToken => left - right,
                         SyntaxKind.StarToken => left * right,
                         SyntaxKind.SlashToken => left / right,
-                        _ => throw new ArgumentException($"Unexpected binary operator {b.OperatorToken.Kind}")
+                        _ => throw new ArgumentException($"Unexpected binary operator {b.OperatorToken.Kind}"),
                     };
                 }
 

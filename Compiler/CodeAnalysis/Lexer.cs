@@ -4,8 +4,8 @@ using Enums;
 
 internal class Lexer(string text)
 {
-    private int _position;
     private readonly List<string> _diagnostics = [];
+    private int _position;
 
     public IEnumerable<string> Diagnostics => _diagnostics;
 

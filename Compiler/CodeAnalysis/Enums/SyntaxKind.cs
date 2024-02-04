@@ -22,5 +22,5 @@ internal enum SyntaxKind
     NumberExpression,
     BinaryExpression,
     ParenthesizedExpression,
-    UnaryExpression
+    UnaryExpression,
 }

@@ -9,7 +9,7 @@ internal static class SyntaxFacts
         return kind switch
         {
             SyntaxKind.PlusToken or SyntaxKind.MinusToken => 3,
-            _ => 0
+            _ => 0,
         };
     }
 
@@ -19,7 +19,7 @@ internal static class SyntaxFacts
         {
             SyntaxKind.StarToken or SyntaxKind.SlashToken => 2,
             SyntaxKind.PlusToken or SyntaxKind.MinusToken => 1,
-            _ => 0
+            _ => 0,
         };
     }
 }

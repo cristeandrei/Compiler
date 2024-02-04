@@ -8,24 +8,6 @@ internal class Parser
     private readonly List<string> _diagnostics = [];
     private int _position;
 
-    private ExpressionSyntax ParsePrimaryExpression()
-    {
-        if (Current.Kind == SyntaxKind.OpenParenthesisToken)
-        {
-            var left = NextToken();
-
-            var expression = ParseExpression();
-
-            var right = MatchToken(SyntaxKind.CloseParenthesisToken);
-
-            return new ParenthesizedExpressionSyntax(left, expression, right);
-        }
-
-        var numberToken = MatchToken(SyntaxKind.NumberToken);
-
-        return new LiteralExpressionSyntax(numberToken);
-    }
-
     public Parser(string text)
     {
         var tokens = new List<SyntaxToken>();
@@ -46,12 +28,41 @@ internal class Parser
         }
         while (token.Kind != SyntaxKind.EndOfFileToken);
 
-        _tokens = tokens.ToArray();
+        _tokens = [.. tokens];
 
         _diagnostics.AddRange(lexer.Diagnostics);
     }
 
     public IEnumerable<string> Diagnostics => _diagnostics;
+
+    private SyntaxToken Current => Peek(0);
+
+    public SyntaxTree Parse()
+    {
+        var expression = ParseExpression();
+
+        var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
+
+        return new SyntaxTree(_diagnostics, expression, endOfFileToken);
+    }
+
+    private ExpressionSyntax ParsePrimaryExpression()
+    {
+        if (Current.Kind == SyntaxKind.OpenParenthesisToken)
+        {
+            var left = NextToken();
+
+            var expression = ParseExpression();
+
+            var right = MatchToken(SyntaxKind.CloseParenthesisToken);
+
+            return new ParenthesizedExpressionSyntax(left, expression, right);
+        }
+
+        var numberToken = MatchToken(SyntaxKind.NumberToken);
+
+        return new LiteralExpressionSyntax(numberToken);
+    }
 
     private SyntaxToken Peek(int offset)
     {
@@ -62,8 +73,6 @@ internal class Parser
             : _tokens[index];
     }
 
-    private SyntaxToken Current => Peek(0);
-
     private SyntaxToken NextToken()
     {
         var current = Current;
@@ -71,15 +80,6 @@ internal class Parser
         _position++;
 
         return current;
-    }
-
-    public SyntaxTree Parse()
-    {
-        var expression = ParseExpression();
-
-        var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-
-        return new SyntaxTree(_diagnostics, expression, endOfFileToken);
     }
 
     private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
@@ -105,8 +105,10 @@ internal class Parser
         {
             var precedence = Current.Kind.GetBinaryOperatorPrecedence();
 
-            if(precedence == 0 || precedence <= parentPrecedence)
+            if (precedence == 0 || precedence <= parentPrecedence)
+            {
                 break;
+            }
 
             var operatorToken = NextToken();
 
