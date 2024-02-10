@@ -5,7 +5,6 @@ using Enums;
 internal class Parser
 {
     private readonly SyntaxToken[] _tokens;
-    private readonly List<string> _diagnostics = [];
     private int _position;
 
     public Parser(string text)
@@ -30,10 +29,10 @@ internal class Parser
 
         _tokens = [.. tokens];
 
-        _diagnostics.AddRange(lexer.Diagnostics);
+        Diagnostics.AddRange(lexer.Diagnostics);
     }
 
-    public IEnumerable<string> Diagnostics => _diagnostics;
+    public DiagnosticBag Diagnostics { get; } = [];
 
     private SyntaxToken Current => Peek(0);
 
@@ -43,7 +42,7 @@ internal class Parser
 
         var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
 
-        return new SyntaxTree(_diagnostics, expression, endOfFileToken);
+        return new SyntaxTree(Diagnostics, expression, endOfFileToken);
     }
 
     private ExpressionSyntax ParsePrimaryExpression()
@@ -142,7 +141,7 @@ internal class Parser
             return NextToken();
         }
 
-        _diagnostics.Add($"ERROR: Unexpected token <{Current.Kind}>, expected <{kind}>");
+        Diagnostics.ReportUnexpectedToken(Current.Span, Current.Kind, kind);
 
         return new SyntaxToken(kind, Current.Position);
     }

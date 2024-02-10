@@ -1,8 +1,8 @@
 namespace Compiler.CodeAnalysis;
 
-internal class EvaluationResult(IEnumerable<string> diagnostics, object? value = null)
+internal class EvaluationResult(IEnumerable<Diagnostic> diagnostics, object? value = null)
 {
-    public IEnumerable<string> Diagnostics { get; } = diagnostics;
+    public IEnumerable<Diagnostic> Diagnostics { get; } = diagnostics;
 
     public object? Value { get; } = value;
 }

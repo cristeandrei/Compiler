@@ -4,10 +4,9 @@ using Enums;
 
 internal class Lexer(string text)
 {
-    private readonly List<string> _diagnostics = [];
     private int _position;
 
-    public IEnumerable<string> Diagnostics => _diagnostics;
+    public DiagnosticBag Diagnostics { get; } = [];
 
     private char Current => Peek(0);
 
@@ -33,7 +32,10 @@ internal class Lexer(string text)
 
             if (!int.TryParse(tokenText, out var value))
             {
-                _diagnostics.Add($"The number {text} isn't valid Int32.");
+                Diagnostics.ReportInvalidNumber(
+                    new TextSpan(start, _position - start),
+                    text,
+                    typeof(int));
             }
 
             return new SyntaxToken(SyntaxKind.NumberToken, start, tokenText, value);
@@ -98,7 +100,7 @@ internal class Lexer(string text)
                 _position += 2;
                 return new SyntaxToken(SyntaxKind.BangEqualsToken, _position, "||");
             default:
-                _diagnostics.Add($"ERROR: bad character input: '{Current}'");
+                Diagnostics.ReportBadCharacter(new TextSpan(_position, 1), Current);
                 return new SyntaxToken(SyntaxKind.BadToken, _position++, text.Substring(_position - 1, 1));
         }
     }

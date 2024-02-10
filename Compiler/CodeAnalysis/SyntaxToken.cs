@@ -13,6 +13,8 @@ internal class SyntaxToken(SyntaxKind kind, int position, string text = "", obje
 
     public object Value { get; } = value ?? string.Empty;
 
+    public TextSpan Span => new(Position, Text.Length);
+
     public override IEnumerable<SyntaxNode> GetChildren()
     {
         return Enumerable.Empty<SyntaxNode>();

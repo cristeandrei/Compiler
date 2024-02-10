@@ -5,7 +5,7 @@ namespace Compiler.Binding;
 
 internal sealed class Binder
 {
-    public IList<string> Diagnostics { get; } = [];
+    public DiagnosticBag Diagnostics { get; } = [];
 
     public BoundExpression BindExpression(ExpressionSyntax syntax)
     {
@@ -33,7 +33,7 @@ internal sealed class Binder
 
         if (boundOperatorKind == null)
         {
-            Diagnostics.Add($"Binary operator `{syntax.OperatorToken.Text}` is not defined for type {boundOperand.Type}.");
+            Diagnostics.ReportUndefinedUnaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundOperand.Type);
 
             return boundOperand;
         }
@@ -49,7 +49,7 @@ internal sealed class Binder
 
         if (boundOperatorKind == null)
         {
-            Diagnostics.Add($"Binary operator `{syntax.OperatorToken.Text}` is not defined for type {boundLeft.Type} and {boundRight.Type}.");
+            Diagnostics.ReportUndefinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundLeft.Type, boundRight.Type);
 
             return boundLeft;
         }
