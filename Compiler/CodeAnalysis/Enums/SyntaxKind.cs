@@ -21,6 +21,7 @@ internal enum SyntaxKind
     // expressions
     BinaryExpression,
     ParenthesizedExpression,
+    NameExpression,
     LiteralExpression,
     UnaryExpression,
 
@@ -33,4 +34,6 @@ internal enum SyntaxKind
     PipePipeToken,
     EqualsEqualsToken,
     BangEqualsToken,
+    AssignmentExpression,
+    EqualsToken,
 }

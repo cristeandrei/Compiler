@@ -3,6 +3,8 @@ using Compiler.CodeAnalysis;
 
 var showTree = false;
 
+var variables = new Dictionary<VariableSymbol, object>();
+
 while (true)
 {
     Console.Write("> ");
@@ -38,7 +40,7 @@ while (true)
 
     var compilation = new Compilation(syntaxTree);
 
-    var evaluationResult = compilation.Evaluate();
+    var evaluationResult = compilation.Evaluate(variables);
 
     if (!evaluationResult.Diagnostics.Any())
     {
@@ -52,13 +54,11 @@ while (true)
         {
             Console.WriteLine(diagnostic);
 
-            var prefix = line.Substring(0, diagnostic.Span.Start);
+            var prefix = line[..diagnostic.Span.Start];
             var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
-            var suffix = line.Substring(diagnostic.Span.End);
+            var suffix = line[diagnostic.Span.End..];
 
             Console.ResetColor();
-
-            Console.WriteLine();
 
             Console.Write("    ");
 

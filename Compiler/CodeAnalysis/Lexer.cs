@@ -83,6 +83,8 @@ internal class Lexer(string text)
                 return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")");
             case '!' when Lookahead != '=':
                 return new SyntaxToken(SyntaxKind.BangToken, _position++, "!");
+            case '=' when Lookahead != '=':
+                return new SyntaxToken(SyntaxKind.EqualsToken, _position++, "=");
             case '&' when Lookahead == '&':
                 _position += 2;
                 return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&");

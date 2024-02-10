@@ -3,19 +3,30 @@ using Compiler.Binding.Enums;
 
 namespace Compiler.CodeAnalysis;
 
-internal class Evaluator(BoundExpression root)
+internal class Evaluator(BoundExpression root, Dictionary<VariableSymbol, object> variables)
 {
     public object Evaluate()
     {
         return EvaluateExpression(root);
     }
 
-    private static object EvaluateExpression(BoundExpression node)
+    private object EvaluateExpression(BoundExpression node)
     {
         switch (node)
         {
             case BoundLiteralExpression n:
                 return n.Value;
+
+            case BoundVariableExpression v:
+                return variables[v.Variable];
+
+            case BoundAssignmentExpression a:
+                var value = EvaluateExpression(a.Expression);
+
+                variables[a.Variable] = value;
+
+                return value;
+
             case BoundUnaryExpression u:
                 var operand = EvaluateExpression(u.Operand);
 
