@@ -19,10 +19,10 @@ internal class Lexer(string text)
             return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0");
         }
 
+        var start = _position;
+
         if (char.IsDigit(Current))
         {
-            var start = _position;
-
             while (char.IsDigit(Current))
             {
                 Next();
@@ -43,8 +43,6 @@ internal class Lexer(string text)
 
         if (char.IsWhiteSpace(Current))
         {
-            var start = _position;
-
             while (char.IsWhiteSpace(Current))
             {
                 Next();
@@ -57,8 +55,6 @@ internal class Lexer(string text)
 
         if (char.IsLetter(Current))
         {
-            var start = _position;
-
             while (char.IsLetter(Current))
             {
                 Next();
@@ -89,16 +85,16 @@ internal class Lexer(string text)
                 return new SyntaxToken(SyntaxKind.BangToken, _position++, "!");
             case '&' when Lookahead == '&':
                 _position += 2;
-                return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position, "&&");
+                return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&");
             case '|' when Lookahead == '|':
                 _position += 2;
-                return new SyntaxToken(SyntaxKind.PipePipeToken, _position, "||");
+                return new SyntaxToken(SyntaxKind.PipePipeToken, start, "||");
             case '=' when Lookahead == '=':
                 _position += 2;
-                return new SyntaxToken(SyntaxKind.EqualsEqualsToken, _position, "||");
+                return new SyntaxToken(SyntaxKind.EqualsEqualsToken, start, "||");
             case '!' when Lookahead == '=':
                 _position += 2;
-                return new SyntaxToken(SyntaxKind.BangEqualsToken, _position, "||");
+                return new SyntaxToken(SyntaxKind.BangEqualsToken, start, "||");
             default:
                 Diagnostics.ReportBadCharacter(new TextSpan(_position, 1), Current);
                 return new SyntaxToken(SyntaxKind.BadToken, _position++, text.Substring(_position - 1, 1));

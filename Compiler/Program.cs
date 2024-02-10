@@ -51,6 +51,28 @@ while (true)
         foreach (var diagnostic in evaluationResult.Diagnostics)
         {
             Console.WriteLine(diagnostic);
+
+            var prefix = line.Substring(0, diagnostic.Span.Start);
+            var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
+            var suffix = line.Substring(diagnostic.Span.End);
+
+            Console.ResetColor();
+
+            Console.WriteLine();
+
+            Console.Write("    ");
+
+            Console.Write(prefix);
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+
+            Console.Write(error);
+
+            Console.ResetColor();
+
+            Console.Write(suffix);
+
+            Console.WriteLine();
         }
 
         Console.ResetColor();
