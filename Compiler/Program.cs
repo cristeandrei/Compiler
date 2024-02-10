@@ -36,27 +36,19 @@ while (true)
         Console.ResetColor();
     }
 
-    var binder = new Binder();
+    var compilation = new Compilation(syntaxTree);
 
-    var boundExpression = binder.BindExpression(syntaxTree.Root);
+    var evaluationResult = compilation.Evaluate();
 
-    var diagnostics = syntaxTree
-        .Diagnostics
-        .Concat(binder.Diagnostics);
-
-    if (!diagnostics.Any())
+    if (!evaluationResult.Diagnostics.Any())
     {
-        var e = new Evaluator(boundExpression);
-
-        var result = e.Evaluate();
-
-        Console.WriteLine(result);
+        Console.WriteLine(evaluationResult.Value);
     }
     else
     {
         Console.ForegroundColor = ConsoleColor.DarkRed;
 
-        foreach (var diagnostic in diagnostics)
+        foreach (var diagnostic in evaluationResult.Diagnostics)
         {
             Console.WriteLine(diagnostic);
         }
